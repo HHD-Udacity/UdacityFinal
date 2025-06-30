@@ -28,10 +28,6 @@
 					"name": "ExternalTable"
 				},
 				{
-					"dataset": {
-						"referenceName": "trgPayrollSUmmary",
-						"type": "DatasetReference"
-					},
 					"name": "sink1"
 				}
 			],
@@ -118,11 +114,10 @@
 				"     skipDuplicateMapOutputs: true) ~> ExternalTable",
 				"RollUp sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     umask: 0022,",
-				"     preCommands: [],",
-				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     preCommands: [],",
+				"     postCommands: []) ~> sink1"
 			]
 		}
 	}
