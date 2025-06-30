@@ -1,0 +1,122 @@
+{
+	"name": "Copy MD Data",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "srcAgencyMaster",
+						"type": "DatasetReference"
+					},
+					"name": "srcagency"
+				},
+				{
+					"dataset": {
+						"referenceName": "srcEmpMaster",
+						"type": "DatasetReference"
+					},
+					"name": "srcempl"
+				},
+				{
+					"dataset": {
+						"referenceName": "srcTitleMaster",
+						"type": "DatasetReference"
+					},
+					"name": "srctitle"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "trgNYC_Payroll_AGENCY_MD",
+						"type": "DatasetReference"
+					},
+					"name": "trgagency"
+				},
+				{
+					"dataset": {
+						"referenceName": "trgNYC_Payroll_EMP_MD",
+						"type": "DatasetReference"
+					},
+					"name": "trgemp"
+				},
+				{
+					"dataset": {
+						"referenceName": "trgNYC_Payroll_TITLE_MD",
+						"type": "DatasetReference"
+					},
+					"name": "trgtitle"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          AgencyID as string,",
+				"          AgencyName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> srcagency",
+				"source(output(",
+				"          EmployeeID as string,",
+				"          LastName as string,",
+				"          FirstName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> srcempl",
+				"source(output(",
+				"          TitleCode as string,",
+				"          TitleDescription as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> srctitle",
+				"srcagency sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          AgencyID as string,",
+				"          AgencyName as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> trgagency",
+				"srcempl sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          EmployeeID as string,",
+				"          LastName as string,",
+				"          FirstName as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> trgemp",
+				"srctitle sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          TitleCode as string,",
+				"          TitleDescription as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> trgtitle"
+			]
+		}
+	}
+}
